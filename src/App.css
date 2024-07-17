@@ -25,23 +25,46 @@ button:hover {
   cursor: pointer;
 }
 
+.background_container {
+  padding: 20px;
+}
+
+.button_container {
+  margin-bottom: 20px;
+}
+
 .flex-container {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-evenly;
-  background-color: #032541;
+  gap: 20px;
 }
 
 .movie_item {
-  padding-top: 20px;
-  padding-left: 35px;
-  padding-right: 35px;
-  padding-bottom: 15px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: white;
+  width: 200px;
+  text-align: center;
 }
+
+.movie_item img {
+  width: 100%;
+  height: auto;
+}
+
+.movie_name {
+  margin-top: 10px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.movie_rating {
+  margin-top: 5px;
+}
+
+.movie_imdb a {
+  margin-top: 5px;
+  color: blue;
+  text-decoration: none;
+}
+
 .movie_item img {
   border-radius: 3rem;
   box-shadow: 3rem;
@@ -51,4 +74,14 @@ button:hover {
   padding-top: 10px;
   font-size: 1.2rem;
   font-weight: bold;
+}
+.movie_item {
+  padding-top: 20px;
+  padding-left: 35px;
+  padding-right: 35px;
+  padding-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: white;
 }

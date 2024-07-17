@@ -1,68 +1,44 @@
-import { useEffect, useState } from 'react';
-import axios from 'axios';
-import './App.css';
+import React, { useEffect, useState } from 'react';
 
+const MoviesList = () => {
+    const [movies, setMovies] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const moviesPerPage = 9;
 
-function App() {
+    useEffect(() => {
+        fetch('https://dummyapi.online/api/movies')
+            .then(response => response.json())
+            .then(data => setMovies(data));
+    }, []);
 
-  const [movieData, setMovieData] = useState([]);
+    // Calculate the indexes for the current page
+    const indexOfLastMovie = currentPage * moviesPerPage;
+    const indexOfFirstMovie = indexOfLastMovie - moviesPerPage;
+    const currentMovies = movies.slice(indexOfFirstMovie, indexOfLastMovie);
 
-  useEffect(() => {
-    getTrendingMovieData("movie");
-  }, []);
+    const totalPages = Math.ceil(movies.length / moviesPerPage);
 
-
-  async function getTrendingMovieData(type) {
-    try {
-      const apiKey = 'b8d982ac5b5dd4e8bfb3c79d63ec794a';
-      let resp = await axios.get(`https://api.themoviedb.org/3/trending/${type}/day?api_key=${apiKey}&media_type=movie`);
-      console.log(21, resp.data.results);
-
-      setMovieData(resp.data.results);
-
-    } catch (e) {
-
-
-    } finally {
-
-    }
-
-  }
-
-
-
-  return (
-    <>
-      <div className="background_container">
-        <div className="button_container">
-          <button onClick={() => {
-            getTrendingMovieData("movie");
-          }
-          }>
-            Trending Movies
-          </button>
-          <button onClick={() => {
-            getTrendingMovieData("tv");
-          }
-          }>
-            Trending TV
-          </button>
-        </div>
-        <div className='flex-container'>
-          {movieData.map((item) =>
-            <div className="movie_item">
-              <img src={`https://image.tmdb.org/t/p/w300/${item.poster_path}`} />
-              <div className="movie_name">
-                {item.original_title ? item.original_title : item.original_name}
-
-              </div>
+    return (
+        <div>
+            <div>
+                {currentMovies.map(movie => (
+                    <div key={movie.id}>
+                        <h2>{movie.movie}</h2>
+                        <img src={movie.image} alt={movie.movie} />
+                        <p>Rating: {movie.rating}</p>
+                        <a href={movie.imdb_url} target="_blank" rel="noopener noreferrer">IMDB</a>
+                    </div>
+                ))}
             </div>
-          )}
+            <div>
+                {Array.from({ length: totalPages }, (_, index) => (
+                    <button key={index} onClick={() => setCurrentPage(index + 1)}>
+                        {index + 1}
+                    </button>
+                ))}
+            </div>
         </div>
-      </div>
-    </>
+    );
+};
 
-  );
-}
-
-export default App;
+export default MoviesList;
